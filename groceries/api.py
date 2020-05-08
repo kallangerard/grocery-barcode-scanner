@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import requests
@@ -23,6 +24,7 @@ class GrocyAPIClient(object):
 
         if self.base_url is None or self.api_key is None:
             # TODO: Logging
+            logging.debug("Environmental variables not set correctly")
             pass
         else:
             self.headers = {
@@ -41,3 +43,6 @@ class GrocyAPIClient(object):
         response = requests.post(url, headers=self.headers, json=json)
         if response.status_code == 200:
             return response
+        elif response.status_code == 400:
+            logging.debug(f"Status Code is {response.status_code}")
+            logging.debug(response.json())

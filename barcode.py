@@ -1,5 +1,7 @@
+import logging
 import groceries.api
 
-consume = groceries.api.GrocyAPIClient()
-response = consume.consume_barcode("12345")
-print(response.status_code)
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    consume = groceries.api.GrocyAPIClient()
+    response = consume.consume_barcode("12345")

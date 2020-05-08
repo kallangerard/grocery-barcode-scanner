@@ -1,14 +1,16 @@
- # cp barcode.service /lib/systemd/sample.service
- # sudo chmod 644 /lib/systemd/system/barcode.service
- # sudo reboot
- 
- [Unit]
- Description=Barcode Scanning Service
- After=multi-user.target
+# cp barcode.service /lib/systemd/sample.service
+# sudo chmod 644 /lib/systemd/system/barcode.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable sample.service
+# sudo reboot
 
- [Service]
- Type=idle
- ExecStart=/usr/bin/python3 /home/pi/grocery-barcode-scanner/barcode.py > /home/pi/barcode.log 2>&1
+[Unit]
+Description=Barcode Scanning Service
+After=multi-user.target
 
- [Install]
- WantedBy=multi-user.target
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 /home/pi/grocery-barcode-scanner/barcode.py > /home/pi/barcode.log 2>&1
+
+[Install]
+WantedBy=multi-user.target

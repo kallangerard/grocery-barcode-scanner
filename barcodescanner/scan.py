@@ -20,14 +20,9 @@ class Scan(object):
         for key in kwds:
             self.__dict__[key] = kwds[key]
 
-        if self.base_url is None or self.api_key is None:
+        if self.idVendor is None or self.idProduct is None:
             # TODO: Logging
             pass
-        else:
-            self.headers = {
-                "GROCY-API-KEY": self.api_key,
-                "User-Agent": "Grocy-Handler",
-            }
 
         # Find our device using the VID (Vendor ID) and PID (Product ID)
         device = usb.core.find(idVendor=self.idVendor, idProduct=self.idVendor)

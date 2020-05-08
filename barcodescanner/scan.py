@@ -25,7 +25,7 @@ class Scan(object):
             pass
 
         # Find our device using the VID (Vendor ID) and PID (Product ID)
-        device = usb.core.find(idVendor=self.idVendor, idProduct=self.idVendor)
+        device = usb.core.find(idVendor=self.idVendor, idProduct=self.idProduct)
         if device is None:
             raise ValueError("USB device not found")
 

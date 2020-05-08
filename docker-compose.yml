@@ -6,3 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - SCANNER_VENDOR_ID="0x05E0"
+      - SCANNER_PRODUCT_ID="0x1200"
+      - GROCY_API_KEY
+      - GROCY_BASE_URL

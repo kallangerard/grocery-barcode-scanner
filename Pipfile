@@ -7,6 +7,7 @@ verify_ssl = true
 black = "*"
 pylint = "*"
 ipykernel = "*"
+pipfile-requirements = "*"
 
 [packages]
 boto3 = "*"

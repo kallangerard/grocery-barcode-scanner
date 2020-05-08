@@ -6,12 +6,12 @@ import boto3
 
 sqs = boto3.client("sqs")
 
-# TODO: Environ for QueueNames 
+# TODO: Environ for QueueNames
 consume_url = sqs.get_queue_url(QueueName="groceryConsume.fifo")
 purchase_url = sqs.get_queue_url(QueueName="groceryPurchase.fifo")
 
 
-def consume_product(barccode_string):
+def consume_product(barcode_string):
     uuidOne = str(uuid1())
     response = sqs.send_message(
         QueueUrl=consume_url["QueueUrl"],
@@ -32,7 +32,7 @@ def purchase_product(barcode_string):
     )
     return response
 
-def threaded_send(barcode_string)
+
+def threaded_send(barcode_string):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         submitted = executor.submit(purchase_product, str(barcode_string))
-    

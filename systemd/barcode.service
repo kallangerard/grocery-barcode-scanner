@@ -1,4 +1,4 @@
-# cp barcode.service /lib/systemd/sample.service
+# cp barcode.service /lib/systemd/barcode.service
 # sudo chmod 644 /lib/systemd/system/barcode.service
 # sudo systemctl daemon-reload
 # sudo systemctl enable sample.service

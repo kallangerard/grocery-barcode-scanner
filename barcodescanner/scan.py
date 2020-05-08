@@ -128,11 +128,11 @@ class Scan(object):
                 byte_array = self.endpoint.read(8, 200)
                 # Until Carriage Return from Scanner (40)
                 if data[2] == 40:
-                    # TODO: Submit Barcode String Here
-                    line = ""
-                    continue
+                    # Break from loop and return line
+                    return line
+                    # line = ""
                 character = self.Hid2Ascii(byte_array)
                 line += character
             except usb.core.USBError:
                 # Timed out. End of the data stream.
-                line = ""
+                return None

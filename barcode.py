@@ -1,19 +1,18 @@
 import logging
-import groceries.api
-import barcodescanner.scan
-
-consume = groceries.api.GrocyAPIClient()
+import groceries.api as groceries
+import barcodescanner.scan as barcode
 
 
 def main():
-    scanner = barcodescanner.scan.Scan()
-    line = scanner.PollScanner()
-    if line != None:
-        response = consume.consume_barcode(line)
-        logging.debug(response)
+    grocy = groceries.GrocyAPIClient()
+    while True:
+        scanner = barcode.Scan()
+        line = scanner.PollScanner()
+        if line != None:
+            response = grocy.consume_barcode(line)
+            logging.debug(response)
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    while True:
-        main()
+    main()

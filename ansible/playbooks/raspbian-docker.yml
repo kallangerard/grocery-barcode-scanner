@@ -1,0 +1,51 @@
+---
+- name: Install packages for Docker
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  vars:
+    packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+# GPG Key
+- name: Add GPG Key for Docker
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+
+# Repsitory
+- name: Add Repository for Docker
+  apt_repository:
+    repo: deb [arch=armhf] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+    state: present
+  register: docker_repository
+
+# Docker CE
+- name: Update Apt Cache
+  apt:
+    update_cache: yes
+  when: docker_repository.changed == True
+
+- name: Install Docker CE
+  apt:
+    name: docker-ce
+    state: present
+
+- name: Install Python-Docker
+  apt:
+    name: python-docker
+    state: present
+
+- name: Start Docker Service
+  service:
+    name: docker
+    state: started
+    
+
+#TODO: Docker Compose

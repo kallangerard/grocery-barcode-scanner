@@ -1,0 +1,18 @@
+---
+- name: Set Country Code
+  lineinfile:
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
+    regex: "^country="
+    line: "country={{ wifi_country }}"
+    state: present
+
+- name: Configure SSID and Password
+  blockinfile:
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
+    block: |
+      network={
+          ssid="{{ wifi_ssid }}"
+          psk="{{ wifi_password }}"
+          scan_ssid=1
+      }
+    state: present

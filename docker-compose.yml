@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   grocerybarcodescanner:
@@ -11,3 +11,4 @@ services:
       - SCANNER_PRODUCT_ID="0x1200"
       - GROCY_API_KEY
       - GROCY_BASE_URL
+    restart: always

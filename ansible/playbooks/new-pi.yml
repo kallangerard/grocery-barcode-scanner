@@ -1,0 +1,83 @@
+---
+# tasks file for new-pi
+# Expand filesystem to fill SD Card
+- name: Expanding Filesystem
+  command: raspi-config --expand-rootfs
+
+# - name: Ensure locale exists
+#   locale_gen:
+#     name: "{{ locale }}"
+#     state: present
+
+# - name: Removing default GB locale
+#   locale_gen:
+#     name: en_GB.UTF-8
+#     state: absent
+
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade apt packages
+  apt:
+    upgrade: dist
+
+- name: Install .local domain resolution
+  apt:
+    name: avahi-daemon
+    state: present
+
+- name: Changing hostname
+  hostname:
+    name: "{{ hostname }}"
+
+# - name: configure wifi
+#   include: update-wifi.yml
+
+- name: Update cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install rpi-update
+  apt:
+    name: rpi-update
+    state: present
+
+- name: Run kernel upgrade
+  command: /usr/bin/rpi-update
+  environment:
+    SKIP_WARNING: 1
+
+- name: Set Country Code
+  lineinfile:
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
+    regex: "^country="
+    line: "country={{ wifi_country }}"
+    state: present
+
+- name: Configure SSID and Password
+  blockinfile:
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
+    block: |
+      network={
+          ssid="{{ wifi_ssid }}"
+          psk="{{ wifi_password }}"
+          scan_ssid=1
+      }
+    state: present
+
+- name: Reboot Pi
+  reboot:
+
+- name: Set authorised key exclusively
+  authorized_key:
+    user: pi
+    state: present
+    key: "{{ lookup('file', raspberry_public_key) }}"
+    exclusive: True

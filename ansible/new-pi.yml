@@ -26,5 +26,5 @@
     timezone: Australia/Perth
 
   become: true
-  roles:
-    - ../roles/new-pi
+  tasks:
+    - ./playbooks/new-pi.yml

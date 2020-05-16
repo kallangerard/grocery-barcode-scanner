@@ -1,10 +1,6 @@
 # ansible-playbook -K ./playbooks/new-pi.yml
 ---
-- hosts:
-    raspberrypi:
-      ansible_host: raspberrypi
-      ansible_user: pi
-      ansible_password: raspberry
+- hosts: raspberrypi.kallan.xyz
   gather_facts: yes
   vars_prompt:
     - name: hostname
@@ -17,9 +13,11 @@
 
     - name: wifi_password
       prompt: "Enter Password for Wifi"
+      private: no
 
     - name: raspberry_public_key
       prompt: "Enter path for public key"
+      private: no
 
   vars:
     wifi_country: "AU"
@@ -27,4 +25,4 @@
 
   become: true
   tasks:
-    - ./playbooks/new-pi.yml
+    - import_tasks: ./playbooks/new-pi.yml
